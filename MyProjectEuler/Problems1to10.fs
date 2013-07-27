@@ -54,8 +54,8 @@ let problem7() =
 
 let problem7_joke() =
     let waitAndReturn (t : Task<'a>) = t.Wait(); t.Result   
-    let txtWithPrimes = (HttpClient().GetAsync("http://primes.utm.edu/lists/small/100000.txt")|> waitAndReturn)
-                                     .Content.ReadAsStringAsync() |> waitAndReturn
+    let txtWithPrimes = (HttpClient().GetAsync("http://primes.utm.edu/lists/small/100000.txt") |> waitAndReturn)
+                                     .Content.ReadAsStringAsync()                              |> waitAndReturn
     let primesWithSomeBullshit = Regex.Split(txtWithPrimes, "\s+")
     primesWithSomeBullshit |> Array.findIndex  (fun x -> x = "2") 
                            |> (+) 10000 
