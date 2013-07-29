@@ -31,3 +31,11 @@ let problem11() =
     |> Seq.max
     |> printfn "Problem 11 = %A" //70600674
    ()
+
+let problem13() =
+    let collatz n = n |> Seq.unfold (function
+                                  | x when x=1 -> None
+                                  | x when x%2=0 -> Some(x, x/2)
+                                  | _ as x -> Some(x, 3*x+1)) 
+    [2..1000000] |> List.maxBy (collatz>>Seq.length)
+    ()
