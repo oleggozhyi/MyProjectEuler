@@ -169,3 +169,10 @@ let problem13 =
      (nums .Split([|'\n'; ' '|], System.StringSplitOptions.RemoveEmptyEntries) 
             |> Array.map (fun s-> bigint.Parse s) 
             |> Array.sum).ToString().Substring(0,10)
+
+let problem14() =
+    let collatz n = n |> Seq.unfold (function
+                                  | x when x=1 -> None
+                                  | x when x%2=0 -> Some(x, x/2)
+                                  | _ as x -> Some(x, 3*x+1)) 
+    [2..1000000] |> List.maxBy (collatz>>Seq.length)
