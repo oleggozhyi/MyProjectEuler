@@ -1,5 +1,8 @@
 ﻿module Problems11to20
 
+open Microsoft.FSharp.Collections
+open System.Collections.Generic
+
 let problem11() = 
    let grid = array2D [ [ 08; 02; 22; 97; 38; 15; 00; 40; 00; 75; 04; 05; 07; 78; 52; 12; 50; 77; 91; 08 ]
                         [ 49; 49; 99; 40; 17; 81; 18; 57; 60; 87; 17; 40; 98; 43; 69; 48; 04; 56; 62; 00 ]
@@ -169,10 +172,24 @@ let problem13 =
      (nums .Split([|'\n'; ' '|], System.StringSplitOptions.RemoveEmptyEntries) 
             |> Array.map (fun s-> bigint.Parse s) 
             |> Array.sum).ToString().Substring(0,10)
+            |> printfn "Problem 13 = %A"
 
 let problem14() =
     let collatz n = n |> Seq.unfold (function
-                                  | x when x=1 -> None
-                                  | x when x%2=0 -> Some(x, x/2)
-                                  | _ as x -> Some(x, 3*x+1)) 
-    [2..1000000] |> List.maxBy (collatz>>Seq.length)
+                                  | x when x=1L -> None
+                                  | x when x%2L=0L -> Some(x, x/2L)
+                                  | _ as x -> Some(x, 3L*x+1L)) 
+    [2L..1000000L] |> List.maxBy (collatz>>Seq.length) |> printfn "Problem 14 = %A" //837799L
+
+let problem14_optimized() =
+    let cache = new Dictionary<int64, int64>(1000000)
+    let memorize n len = cache.Add(n, len); len
+    let collatzSeqLen n = 
+        let rec collatzSeqLen' totalLen = function
+            | 1L -> totalLen
+            | _ as n -> match cache.TryGetValue(n) with
+                        | (true, len) -> len + totalLen
+                        | (false, _) -> let nextValue = if n%2L=0L then n/2L else 3L*n+1L
+                                        collatzSeqLen' (totalLen+1L) nextValue               
+        collatzSeqLen' 0L n |> memorize n
+    {2L..1000000L} |> PSeq.maxBy collatzSeqLen |> printfn "Problem 14 = %A"  //837799
