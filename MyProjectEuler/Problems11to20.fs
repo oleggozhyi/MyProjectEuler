@@ -193,3 +193,14 @@ let problem14_optimized() =
                                         collatzSeqLen' (totalLen+1L) nextValue               
         collatzSeqLen' 0L n |> memorize n
     {2L..1000000L} |> PSeq.maxBy collatzSeqLen |> printfn "Problem 14 = %A"  //837799
+
+let problem19() =
+    let month = [|31;28;31;30;31;30;31;31;30;31;30;31|]
+    let daysInMonth y m = if m<>2 || not (y%4=0 && y<>1900) then month.[m-1] else 29
+    let isSunday y m d = 
+        let daysInFullYearsSince1900 = 365+(y-1901)*(365*4+1)/4
+        let daysSinceJan1st = d + List.sumBy (daysInMonth y) [1..m-1]
+        (daysSinceJan1st+daysInFullYearsSince1900) % 7 = 5
+    seq { for y in 1901..2000 do for m in 1..12 do if isSunday y m 1 then yield 1} 
+        |> Seq.length 
+        |> printfn "Problem 19 = %A"  //171
