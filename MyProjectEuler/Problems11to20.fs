@@ -199,6 +199,15 @@ let problem15() =
    let (!) n = [1I..n] |> List.reduce (*)
    !40I  / (!20I * !20I ) |> printfn "Problem 15 = %A" //137846528820
 
+let problem16()= 
+    //TODO: try without bigint
+    seq {for i in 1..1000 do yield 2I} 
+        |> Seq.reduce (*) 
+        |> fun x->x.ToString() 
+        |> Seq.map (fun c-> int c - int '0') 
+        |> Seq.sum
+        |> printfn "Problem 16 = %A" //1366
+
 let problem19() =
     let month = [|31;28;31;30;31;30;31;31;30;31;30;31|]
     let daysInMonth y m = if m<>2 || not (y%4=0 && y<>1900) then month.[m-1] else 29
