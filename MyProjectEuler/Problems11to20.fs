@@ -183,7 +183,7 @@ let problem14() =
 
 let problem14_optimized() =
     let cache = new Dictionary<int64, int64>(1000000)
-    let memorize n len = cache.Add(n, len); len
+    let memoize n len = cache.Add(n, len); len
     let collatzSeqLen n = 
         let rec collatzSeqLen' totalLen = function
             | 1L -> totalLen
@@ -191,8 +191,13 @@ let problem14_optimized() =
                         | (true, len) -> len + totalLen
                         | (false, _) -> let nextValue = if n%2L=0L then n/2L else 3L*n+1L
                                         collatzSeqLen' (totalLen+1L) nextValue               
-        collatzSeqLen' 0L n |> memorize n
+        collatzSeqLen' 0L n |> memoize n
     {2L..1000000L} |> PSeq.maxBy collatzSeqLen |> printfn "Problem 14 = %A"  //837799
+
+let problem15() = 
+   // 40! (20!*20!)
+   let (!) n = [1I..n] |> List.reduce (*)
+   !40I  / (!20I * !20I ) |> printfn "Problem 15 = %A" //137846528820
 
 let problem19() =
     let month = [|31;28;31;30;31;30;31;31;30;31;30;31|]
