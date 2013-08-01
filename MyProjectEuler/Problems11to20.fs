@@ -200,13 +200,8 @@ let problem15() =
    !40I  / (!20I * !20I ) |> printfn "Problem 15 = %A" //137846528820
 
 let problem16()= 
-    //TODO: try without bigint
-    seq {for i in 1..1000 do yield 2I} 
-        |> Seq.reduce (*) 
-        |> fun x->x.ToString() 
-        |> Seq.map (fun c-> int c - int '0') 
-        |> Seq.sum
-        |> printfn "Problem 16 = %A" //1366
+    let rec digitsSum acc n = if n<10I then acc+n else digitsSum (acc+n%10I) (n/10I)
+    2I<<<999 |>  digitsSum 0I |> printfn  "Problem 16 = %A" //1366
 
 let problem19() =
     let month = [|31;28;31;30;31;30;31;31;30;31;30;31|]
