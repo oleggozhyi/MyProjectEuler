@@ -203,6 +203,24 @@ let problem16()=
     let rec digitsSum acc n = if n<10I then acc+n else digitsSum (acc+n%10I) (n/10I)
     2I<<<999 |>  digitsSum 0I |> printfn  "Problem 16 = %A" //1366
 
+let problem17() = 
+    let m1to9 = Map.ofList [1, "one"; 2, "two"; 3, "three"; 4, "four"; 5, "five";  
+                            6, "six"; 7, "seven"; 8, "eight"; 9, "nine"]
+    let m11to19 = Map.ofList [10, "ten"; 11, "eleven"; 12, "twelve"; 13, "thirteen"; 14, "fourteen"; 
+                                15, "fifteen"; 16, "sixteen"; 17, "seventeen"; 18, "eighteen"; 19, "nineteen"]
+    let m20to90 = Map.ofList [20, "twenty"; 30, "thirty"; 40, "forty"; 50, "fifty"; 60, "sixty";
+                                70, "seventy"; 80, "eighty"; 90, "ninety"] 
+    let rec num2str strAcc = function
+        | n when n<10   -> strAcc + " " +  m1to9.[n]
+        | n when n<20   -> strAcc + " " + m11to19.[n]
+        | n when n<100  -> if n%10=0 then strAcc + " " +  m20to90.[n/10*10]
+                            else num2str (strAcc + " " + m20to90.[n/10*10]) (n%10)
+        | n when n<1000 -> if n%100=0 then m1to9.[n/100] + " hundred"
+                            else num2str (m1to9.[n/100] + " hundred and") (n%100)
+        | 1000          -> "one thousand"
+        | _             -> failwith "numbers  > 1000 aren't supported"
+    [1..1000] |> List.sumBy ( fun n-> (num2str "" n).Replace(" ", "").Length )
+                |> printfn "Problem 17 = %A"  //21124
 let problem19() =
     let month = [|31;28;31;30;31;30;31;31;30;31;30;31|]
     let daysInMonth y m = if m<>2 || not (y%4=0 && y<>1900) then month.[m-1] else 29
@@ -213,3 +231,5 @@ let problem19() =
     seq { for y in 1901..2000 do for m in 1..12 do if isSunday y m 1 then yield 1} 
         |> Seq.length 
         |> printfn "Problem 19 = %A"  //171
+        
+ 

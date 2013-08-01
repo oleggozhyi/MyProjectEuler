@@ -2,5 +2,5 @@
 
 [<EntryPoint>]
 let main argv = 
-  Problems11to20.problem19()
+  Problems11to20.problem17() 
   0 
