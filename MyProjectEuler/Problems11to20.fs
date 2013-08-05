@@ -127,23 +127,17 @@ let problem17() =
               |> printfn "Problem 17 = %A"  //21124
 
 let problem18() = 
-    let input = File.ReadAllText("./ProblemsData/Problem18.txt")
-    let split (symbols:char[]) (s:string) =  
-        s.Split(symbols, StringSplitOptions.RemoveEmptyEntries) 
-        |> List.ofArray
-    let reduceLines xs ys = 
+    let split (c:char[]) (s:string) = s.Split(c, StringSplitOptions.RemoveEmptyEntries) 
+    let inputLines = File.ReadAllText("./ProblemsData/Problem67.txt") |> split [|'\n'|]
+    let reduceLines accLst arr = 
         let rec reduce acc = function
         | (x::[], y::[])      -> List.rev ((x+y)::acc)
-        | (x1::x2::xs, y::ys) -> let maxBranch = max (x1+y) (x2+y)
-                                 reduce (maxBranch::acc) (x2::xs,ys)
-        reduce [] (0::xs, ys)
-    input 
-    |> split [|'\n'|]
-    |> List.map  (fun l-> split [|' '|] l |> List.map Int32.Parse)   
-    |> List.reduce reduceLines
-    |> List.max
-    |> printfn "Problem 18 = %A" //1074
-    0
+        | (x1::x2::xs, y::ys) -> reduce ((max (x1+y) (x2+y))::acc) (x2::xs,ys)
+        reduce [] (0::accLst, List.ofArray arr)
+    inputLines |> Array.map  (fun l-> split [|' '|] l |> Array.map Int32.Parse)   
+               |> Array.fold reduceLines []
+               |> List.max
+               |> printfn "Problem 18 = %A" //1074
 
 let problem19() =
     let month = [|31;28;31;30;31;30;31;31;30;31;30;31|]
@@ -156,4 +150,8 @@ let problem19() =
         |> Seq.length 
         |> printfn "Problem 19 = %A"  //171
         
- 
+let problem20() =
+    //TODO: try not to use Biging
+    [1I..100I] |> List.reduce (*) |> fun x->x.ToString() |> Seq.sumBy (fun c->int c - int '0') 
+    |> printfn "Problem 20 = %A"  //648
+    
