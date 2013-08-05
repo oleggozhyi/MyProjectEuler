@@ -2,5 +2,8 @@
 
 [<EntryPoint>]
 let main argv = 
-  Problems11to20.problem17() 
+  let x = System.Diagnostics.Stopwatch.StartNew()
+  Problems61to70.problem67()
+  x.Stop()
+  printfn "%A" x.Elapsed
   0 
