@@ -47,16 +47,20 @@
     <None Include="ProblemsData\Problem67.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ProblemsData\Problem13.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProblemsData\Problem22.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Primes.fs" />
     <Compile Include="Problems1to10.fs" />
     <Compile Include="Problems11to20.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Content Include="ProblemsData\Problem13.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ProblemsData\Problem22.txt" />
+
+    
     <Compile Include="Problems21to30.fs" />
   </ItemGroup>
   <ItemGroup>
